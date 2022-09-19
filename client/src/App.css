@@ -1,38 +1,117 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto Slab', serif;
+}
+.container {
+  /* padding: 20px; */
+  /* text-align: center; */
+}
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.5);
+}
+.navbar__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+.navbar__container ul {
+  display: flex;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.navbar__container ul li {
+  list-style-type: none;
+  padding: 1rem;
+}
+.navbar__container ul a {
+  color: #000;
+  text-decoration: none;
+  transition: color 100ms ease;
+  cursor: pointer;
+}
+.navbar__container ul a:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+#logo {
+  transition: height 0.5s ease-in-out;
+  /* transition: opacity 400ms ease 200ms; */
+  /* overflow: hidden; */
+}
+.logo {
+  height: 70px;
+}
+.logo.hide {
+  height: 0;
+}
+
+.order {
+  opacity: 1;
+  /* border: 2px solid red; */
+  height: 100%;
+}
+.order.hide {
+  opacity: 0;
+
+  height: 0;
+}
+.navbar__container h4 {
+  transition: all 1s ease;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* CONTENT */
+.content {
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.content > div {
+  width: 90%;
+  margin: 15rem auto;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.drink__container {
+  text-align: left;
+  /* display: flex; */
+  /* justify-content: left; */
+  /* align-items: center; */
+}
+.drink__container h1 {
+  padding-block-end: 2rem;
+}
+.drink__container.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 1rem;
+}
+.drink__card {
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 200ms ease;
 }
-
-.App-link {
-  color: #61dafb;
+.drink__card:hover {
+  box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.7);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.drink__info {
+  width: 100%;
+}
+.drink__info > * {
+  margin: 1rem;
+}
+.drink__card img {
+  height: 100px;
+  width: 100px;
+  background-color: black;
+  margin: 1rem;
 }
