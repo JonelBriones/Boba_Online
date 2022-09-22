@@ -1,4 +1,5 @@
 import './App.css'
+import './mobile.css'
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Navbar } from './pages/Navbar'

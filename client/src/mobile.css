@@ -1,0 +1,26 @@
+/* 480px 32rem */
+/* 768px 48rem */
+@media (max-width: 48rem) {
+  .drink__card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .btn__container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+  .btn__container-right {
+    text-align: center;
+    /* border: 2px solid red; */
+    /* margin: 0.5rem; */
+  }
+  .drink__container.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}

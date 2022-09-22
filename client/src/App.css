@@ -17,6 +17,7 @@
   overflow: hidden;
   background-color: white;
   box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.5);
+  z-index: 100;
 }
 .navbar__container {
   display: flex;
@@ -33,6 +34,23 @@
 .navbar__container ul li {
   list-style-type: none;
   padding: 1rem;
+  /* border: 2px solid red; */
+}
+.cart {
+  position: relative;
+}
+.cart span {
+  position: absolute;
+  padding-bottom: 5px;
+  /* width: 100%; */
+  bottom: 5px;
+  left: 0;
+}
+.cart span {
+  display: flex;
+  justify-content: center;
+  /* border: 2px solid red; */
+  align-items: center;
 }
 .navbar__container ul a {
   color: #000;
@@ -79,26 +97,51 @@
 }
 .drink__container {
   text-align: left;
+  width: 100%;
   /* display: flex; */
   /* justify-content: left; */
   /* align-items: center; */
+  /* margin: 1rem; */
 }
 .drink__container h1 {
-  padding-block-end: 2rem;
+  /* margin-block: 1rem; */
 }
-.drink__container.grid {
+.drink__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
   gap: 1rem;
+  /* display: flex;
+  flex-wrap: wrap; */
+  width: 100%;
+  margin-block: 1rem;
+}
+.drink__container.cart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 1rem;
+  /* display: flex;
+  flex-wrap: wrap; */
+  /* width: 100%; */
+  margin-block: 1rem;
+}
+.drink__container.grid.cart {
+  display: block;
 }
 .drink__card {
+  /* flex: 1; */
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: all 200ms ease;
+  width: 100%;
+  /* margin-block: 1rem; */
+}
+.drink__card.cart {
+  margin-block: 1rem;
 }
 .drink__card:hover {
   box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.7);
@@ -109,9 +152,60 @@
 .drink__info > * {
   margin: 1rem;
 }
-.drink__card img {
+.drink__img {
   height: 100px;
   width: 100px;
   background-color: black;
+}
+
+/* BUTTONS */
+.btn__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 1rem;
+  height: 100%;
+}
+.btn__container.shop {
+  position: relative;
+}
+.drink__qty.shop {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 100%;
+}
+.drink__qty {
+  width: 50px;
+  text-align: center;
+}
+.btn {
+  padding: 0.5rem 2rem;
+  color: #000;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 200ms ease;
+}
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: green; */
+}
+.btn.disabled {
+  cursor: not-allowed;
+}
+.btn__trash {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.btn__trash:hover {
+  opacity: 1;
+}
+.btn.checkout {
+  width: 100%;
+  /* padding: 1rem 2rem; */
 }

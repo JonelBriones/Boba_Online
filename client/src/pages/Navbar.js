@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { GlobalContext } from '../context/GlobalState'
 export const Navbar = () => {
   const [logoHide, setLogoHide] = useState(false)
   const onLogoScoll = () => {
@@ -8,9 +9,11 @@ export const Navbar = () => {
     } else {
       setLogoHide(false)
     }
-    console.log(window.scrollY)
+    // console.log(window.scrollY)
   }
   window.addEventListener('scroll', onLogoScoll)
+  const { cartQty } = useContext(GlobalContext)
+
   return (
     <div className="navbar">
       <div className="navbar__container">
@@ -26,18 +29,23 @@ export const Navbar = () => {
         </a>
 
         <ul>
-          <li>
+          {/* <li>
             <Link to={'/'}>Home</Link>
-          </li>
+          </li> */}
           <li>
             {/* <a href="">Shop</a> */}
             <Link to={'/shop'}>Shop</Link>
           </li>
-          <li>
-            <Link to={'/cart'}>Cart</Link>
-          </li>
-          <li>
+          {/* <li>
             <a href="">About</a>
+          </li> */}
+          <li className="cart">
+            <Link to={'/cart'}>
+              <span>
+                <img src="https://img.icons8.com/windows/32/000000/shopping-cart.png" />
+                ({cartQty})
+              </span>
+            </Link>
           </li>
         </ul>
       </div>
