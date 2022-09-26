@@ -55,17 +55,48 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(GlobalContext, initialState)
   const [cart, setCart] = useState([])
   const [cartQty, setQty] = useState(0)
-  const itemsPrice = cart.reduce((a, c) => a + c.price * c.qty, 0)
-  const taxPrice = itemsPrice * 0.0725
-  const taxPriceParsed = parseFloat(itemsPrice * 0.0725).toFixed(2)
-  const shippingPrice = itemsPrice > 200 ? 20 : 0
-  const totalPrice = parseFloat(itemsPrice + taxPrice + shippingPrice).toFixed(
-    2
+  const [addTip, setTip] = useState(0)
+  const [tipActive, setTipActive] = useState({})
+  const [currentTip, setCurrentTip] = useState([
+    {
+      idx: 0,
+      isToggled: false,
+    },
+    {
+      idx: 1,
+      isToggled: false,
+    },
+    {
+      idx: 2,
+      isToggled: false,
+    },
+    {
+      idx: 3,
+      isToggled: false,
+    },
+  ])
+  const totalCartPrice = cart.reduce((a, c) => a + c.price * c.qty, 0)
+  const totalCartPriceWithTip = parseFloat(totalCartPrice + addTip).toFixed(2)
+  console.log(
+    'without tip: ',
+    totalCartPrice,
+    'with tip: ',
+    totalCartPrice + addTip
   )
+  //   const taxPrice = itemsPrice * 0.0725
+  //   const taxPriceParsed = parseFloat(itemsPrice * 0.0725).toFixed(2)
+  //   const shippingPrice = itemsPrice > 200 ? 20 : 0
+  //   const totalPrice = parseFloat(itemsPrice + taxPrice + shippingPrice).toFixed(
+  //     2
+  //   )
   const trash = (productObject) => {
     const exist = cart.find((product) => product._id === productObject._id)
     setCart(cart.filter((product) => product._id !== productObject._id))
     setQty(cartQty - exist.qty)
+    if (cart.length === 1 && tipActive) {
+      tipActive.isToggled = false
+      setTip(0)
+    }
   }
   const addToCart = (productObject) => {
     // is our product already in the cart?
@@ -73,41 +104,20 @@ export const GlobalProvider = ({ children }) => {
     // if true, add 1 to quantity key value pair for every time it exist/added
     if (exist) {
       setCart(
-        cart.map(
-          (product) =>
-            //find the matching added product from the cart and increment the qty
-            product._id === productObject._id
-              ? { ...exist, qty: exist.qty + 1 }
-              : product
-
-          /* 
-                go into the product object and increment qty
-                    product : {
-                        name : name,
-                        etc : etc,
-                        qty: qty + 1 (added 1)
-                    }
-                */
+        cart.map((product) =>
+          //find the matching added product from the cart and increment the qty
+          product._id === productObject._id
+            ? { ...exist, qty: exist.qty + 1 }
+            : product
         )
       )
-      console.log(cart)
     }
     // else, add to cart and iniate item quantity key value pair
     else {
       setCart([...cart, { ...productObject, qty: 1 }])
-      /* 
-                go into the product object
-                    product : {
-                        name : name,
-                        etc : etc,
-                        qty: 1 (newly created)
-                    }
-                */
-      console.log(cart)
     }
 
     setQty(cartQty + 1)
-    // setTotalPrice(productObject.qty * productObject.price)
   }
   const removeFromCart = (productObject) => {
     const exist = cart.find((product) => product._id === productObject._id)
@@ -118,17 +128,8 @@ export const GlobalProvider = ({ children }) => {
           (product) =>
             //find the matching added product from the cart and increment the qty
             product._id !== productObject._id
-          /* 
-                go into the product object
-                    product : {
-                        name : name,
-                        etc : etc,
-                        qty: qty + 1 (added 1)
-                    }
-                */
         )
       )
-      console.log(cart)
     } else {
       // map into cart and find matching object
       setCart(
@@ -138,11 +139,31 @@ export const GlobalProvider = ({ children }) => {
             : product
         )
       )
-      console.log(cart)
     }
     setQty(cartQty - 1)
   }
 
+  // TOGGLE TIP BUTTON ON AND OFF
+
+  const onToggleTip = (idx, amount) => {
+    console.log(amount)
+    currentTip.map((tip) => {
+      if (tip.idx === idx) {
+        tip.isToggled = !tip.isToggled
+        console.log(tip)
+        if (tip.isToggled) {
+          setTipActive(tip)
+          setTip(amount)
+        } else {
+          setTipActive({})
+          setTip(0)
+        }
+      } else {
+        tip.isToggled = false
+      }
+    })
+    console.log(currentTip)
+  }
   return (
     <GlobalContext.Provider
       value={{
@@ -151,9 +172,14 @@ export const GlobalProvider = ({ children }) => {
         addToCart,
         cart,
         cartQty,
-        totalPrice,
-        itemsPrice,
         trash,
+        tipActive,
+        onToggleTip,
+        currentTip,
+        totalCartPrice,
+        totalCartPriceWithTip,
+        setTip,
+        addTip,
       }}>
       {children}
     </GlobalContext.Provider>

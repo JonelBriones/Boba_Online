@@ -7,7 +7,7 @@ import { Home } from './pages/Home'
 import { Cart } from './pages/Cart'
 import { Shop } from './pages/Shop'
 import { GlobalProvider } from './context/GlobalState'
-
+import './css/desktop.css'
 function App() {
   return (
     <GlobalProvider>

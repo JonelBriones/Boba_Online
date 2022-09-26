@@ -90,14 +90,18 @@
 
 /* CONTENT */
 .content {
+  width: 90%;
+  margin: auto;
+  /* border: 2px solid red; */
 }
 .content > div {
-  width: 90%;
+  width: 100%;
   margin: 15rem auto;
 }
 .drink__container {
   text-align: left;
   width: 100%;
+
   /* display: flex; */
   /* justify-content: left; */
   /* align-items: center; */
@@ -116,19 +120,7 @@
   width: 100%;
   margin-block: 1rem;
 }
-.drink__container.cart {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 1rem;
-  /* display: flex;
-  flex-wrap: wrap; */
-  /* width: 100%; */
-  margin-block: 1rem;
-}
-.drink__container.grid.cart {
-  display: block;
-}
+
 .drink__card {
   /* flex: 1; */
   display: flex;
@@ -140,12 +132,7 @@
   width: 100%;
   /* margin-block: 1rem; */
 }
-.drink__card.cart {
-  margin-block: 1rem;
-}
-.drink__card:hover {
-  box-shadow: 2px 4px 8px 2px rgba(0, 0, 0, 0.7);
-}
+
 .drink__info {
   width: 100%;
 }
@@ -190,22 +177,4 @@
 .btn:hover {
   background-color: rgba(0, 0, 0, 0.1);
   /* background-color: green; */
-}
-.btn.disabled {
-  cursor: not-allowed;
-}
-.btn__trash {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.5rem;
-  opacity: 0.5;
-  cursor: pointer;
-}
-.btn__trash:hover {
-  opacity: 1;
-}
-.btn.checkout {
-  width: 100%;
-  /* padding: 1rem 2rem; */
 }
