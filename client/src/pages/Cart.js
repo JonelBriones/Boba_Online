@@ -23,30 +23,40 @@ export const Cart = () => {
     <div id="cart" className="cart__container">
       <div className="cart__left">
         <h1>Your Cart ({cartQty})</h1>
-        {cart.map((drink) => (
-          <div key={drink._id} className="cart__card">
-            <div className="btn__trash" onClick={() => trash(drink)}>
-              <img src="https://img.icons8.com/windows/32/000000/trash.png" />
-            </div>
-            <div className="drink__info">
+        {cart.map((drink, idx) => (
+          <div key={idx} className="cart__card">
+            <div className="cart_info">
               <p>{drink.name}</p>
-              <p>"{drink.description}"</p>
-              <p>${drink.price}</p>
+              {drink.toppings.length > 0 ? (
+                <>
+                  {drink.toppings.map((topping) => (
+                    <p key={topping._id} className="cart__toppings">
+                      {topping.name}
+                    </p>
+                  ))}
+                </>
+              ) : (
+                <p className="cart__toppings">no toppings</p>
+              )}
+              <p>${parseFloat(drink.price * drink.qty).toFixed(2)}</p>
             </div>
             <div>
-              <img src="" alt="" className="drink__img" />
+              <img src={drink.img} alt="" className="cart_img" />
             </div>
             <div className="btn__container">
               <button
                 className={drink.qty > 1 ? 'btn' : 'btn disabled'}
-                onClick={() => removeFromCart(drink)}
+                onClick={() => removeFromCart(drink, idx)}
                 disabled={drink.qty === 1}>
                 -
               </button>
               <h4 className="drink__qty">{drink.qty}</h4>
-              <button className="btn add" onClick={() => addToCart(drink)}>
+              <button className="btn add" onClick={() => addToCart(drink, idx)}>
                 +
               </button>
+            </div>
+            <div className="btn__trash" onClick={() => trash(drink, idx)}>
+              <img src="https://img.icons8.com/windows/32/000000/trash.png" />
             </div>
           </div>
         ))}
@@ -93,7 +103,7 @@ export const Cart = () => {
                     currentTip[3].isToggled ? 'btn tip active' : 'btn tip'
                   }
                   onClick={() => onToggleTip(3, 0)}>
-                  Other {addTip}
+                  {addTip && currentTip[3].isToggled ? '$' + addTip : 'Other'}
                 </button>
               </div>
               {currentTip[3].isToggled ? (
@@ -105,7 +115,9 @@ export const Cart = () => {
                     max={100}
                     placeholder="$1.00"
                     className={
-                      addTip > 0.99 ? 'btn other active' : 'btn other error'
+                      addTip === 0 || addTip > 0.99
+                        ? 'btn other active'
+                        : 'btn other error'
                     }
                     onChange={(e) => setTip(e.target.value * 1)}
                   />

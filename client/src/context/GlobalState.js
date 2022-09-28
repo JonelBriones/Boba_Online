@@ -5,25 +5,36 @@ const initialState = {
   drinks: [
     {
       _id: 1,
-      name: 'Milk Tea',
+      name: 'Black Tea',
       price: 5,
-      description: 'Milk tea with creamer',
+      description:
+        'Our Boba Guys Blend No. 1 from Tea People. The staple of boba milk tea. Contains caffeine.',
       qty: 0,
+      img: 'https://boba-guys.square.site/uploads/1/2/6/1/126110068/s634804415629712800_p774_i2_w1600.jpeg?width=160',
     },
     {
       _id: 2,
-      name: 'Black Tea',
+      name: 'Matcha Latte',
       price: 5,
-      description: 'Just Black tea',
+      description:
+        'Our organic premium-grade matcha from Tea People layered over your choice of milk and sweetener. Contains caffeine.',
       qty: 0,
+      img: 'https://boba-guys.square.site/uploads/1/2/6/1/126110068/s634804415629712800_p784_i2_w1600.jpeg?width=160',
     },
     {
       _id: 3,
       name: 'Green Tea',
       price: 5,
-      description: 'Green tea with creamer',
+      description:
+        'Our Jasmine Green from Tea People. Floral and silky. Contains caffeine.',
       qty: 0,
+      img: 'https://boba-guys.square.site/uploads/1/2/6/1/126110068/s634804415629712800_p775_i2_w1600.jpeg?width=160',
     },
+  ],
+  toppings: [
+    { _id: 1, name: 'pearls', price: 0.5, qty: 0 },
+    { _id: 2, name: 'aloe', price: 0.5, qty: 0 },
+    { _id: 3, name: 'sea salt creamer', price: 1, qty: 0 },
   ],
   cart: [
     {
@@ -33,19 +44,6 @@ const initialState = {
       description: 'Milk tea with creamer',
       qty: 1,
     },
-    // {
-    //   _id: 3,
-    //   name: 'Green Tea',
-    //   cost: 5,
-    //   description: 'Green tea with creamer',
-    // },
-    // {
-    //   _id: 2,
-    //   name: 'Black Tea',
-    //   cost: 5,
-    //   description:
-    //     'Green tea with creamerGreen tea with creamer Green tea with creamer',
-    // },
   ],
 }
 
@@ -77,38 +75,49 @@ export const GlobalProvider = ({ children }) => {
   ])
   const totalCartPrice = cart.reduce((a, c) => a + c.price * c.qty, 0)
   const totalCartPriceWithTip = parseFloat(totalCartPrice + addTip).toFixed(2)
+  console.log(cart)
   console.log(
     'without tip: ',
     totalCartPrice,
     'with tip: ',
     totalCartPrice + addTip
   )
+  const [showEditDrink, setShowEditDrink] = useState({})
   //   const taxPrice = itemsPrice * 0.0725
   //   const taxPriceParsed = parseFloat(itemsPrice * 0.0725).toFixed(2)
   //   const shippingPrice = itemsPrice > 200 ? 20 : 0
   //   const totalPrice = parseFloat(itemsPrice + taxPrice + shippingPrice).toFixed(
   //     2
   //   )
-  const trash = (productObject) => {
-    const exist = cart.find((product) => product._id === productObject._id)
-    setCart(cart.filter((product) => product._id !== productObject._id))
+  const trash = (productObject, idx) => {
+    // const exist = cart.find((product) => product._id === productObject._id)
+    const exist = cart[idx]
+
+    setCart(cart.filter((product, i) => i !== idx))
     setQty(cartQty - exist.qty)
     if (cart.length === 1 && tipActive) {
       tipActive.isToggled = false
       setTip(0)
     }
   }
-  const addToCart = (productObject) => {
+  const addDrink = (productObject) => {
+    console.log('adding drink with toppings: ', productObject)
+    setCart([...cart, productObject])
+    setQty(cartQty + productObject.qty)
+    console.log(cart)
+  }
+  const addToCart = (productObject, idx) => {
+    console.log('adding drink without toppings: ', productObject)
     // is our product already in the cart?
-    const exist = cart.find((product) => product._id === productObject._id)
+    // const exist = cart.find((product) => product._id === productObject._id)
+    const exist = cart[idx]
+    console.log('exist', exist)
     // if true, add 1 to quantity key value pair for every time it exist/added
     if (exist) {
       setCart(
-        cart.map((product) =>
+        cart.map((product, i) =>
           //find the matching added product from the cart and increment the qty
-          product._id === productObject._id
-            ? { ...exist, qty: exist.qty + 1 }
-            : product
+          i === idx ? { ...exist, qty: exist.qty + 1 } : product
         )
       )
     }
@@ -118,32 +127,36 @@ export const GlobalProvider = ({ children }) => {
     }
 
     setQty(cartQty + 1)
+    console.log(cart)
   }
-  const removeFromCart = (productObject) => {
-    const exist = cart.find((product) => product._id === productObject._id)
+  const removeFromCart = (productObject, idx) => {
+    // const exist = cart.find((product) => product._id === productObject._id)
+    const exist = cart[idx]
     // if qty equals 0 stop decrementing
     if (exist.qty === 1) {
       setCart(
         cart.filter(
-          (product) =>
+          (product, i) =>
             //find the matching added product from the cart and increment the qty
-            product._id !== productObject._id
+            i !== idx
         )
       )
     } else {
       // map into cart and find matching object
       setCart(
-        cart.map((product) =>
-          product._id === productObject._id
-            ? { ...product, qty: product.qty - 1 }
-            : product
+        cart.map((product, i) =>
+          i === idx ? { ...product, qty: product.qty - 1 } : product
         )
       )
     }
     setQty(cartQty - 1)
   }
 
-  // TOGGLE TIP BUTTON ON AND OFF
+  const addTopping = (toppingId) => {
+    const topping = state.toppings.find((t) => t._id === topping)
+  }
+
+  // TOGGLE TIP BUTTON ON AND OFF\
 
   const onToggleTip = (idx, amount) => {
     console.log(amount)
@@ -164,10 +177,16 @@ export const GlobalProvider = ({ children }) => {
     })
     console.log(currentTip)
   }
+  //   const editDrink = (drink) => {
+  //     console.log(drink)
+  //     setShowEditDrink(drink)
+  //     console.log(showEditDrink)
+  //   }
   return (
     <GlobalContext.Provider
       value={{
         drinks: state.drinks,
+        toppings: state.toppings,
         removeFromCart,
         addToCart,
         cart,
@@ -180,6 +199,11 @@ export const GlobalProvider = ({ children }) => {
         totalCartPriceWithTip,
         setTip,
         addTip,
+        // editDrink,
+        setShowEditDrink,
+        showEditDrink,
+        addTopping,
+        addDrink,
       }}>
       {children}
     </GlobalContext.Provider>
