@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../context/GlobalState'
 
 export const Cart = () => {
@@ -17,8 +17,11 @@ export const Cart = () => {
     addTip,
   } = useContext(GlobalContext)
   // console.log(cart)
-
-  // console.log(tip)
+  const navigate = useNavigate()
+  const refresh = () => {
+    navigate('/shop')
+    window.location.reload()
+  }
   return (
     <div id="cart" className="cart__container">
       <div className="cart__left">
@@ -27,6 +30,7 @@ export const Cart = () => {
           <div key={idx} className="cart__card">
             <div className="cart_info">
               <p>{drink.name}</p>
+              <p>{drink.drinkType}</p>
               {drink.toppings.length > 0 ? (
                 <>
                   {drink.toppings.map((topping) => (
@@ -38,6 +42,8 @@ export const Cart = () => {
               ) : (
                 <p className="cart__toppings">no toppings</p>
               )}
+              <p>{drink.sugar}% sweetness</p>
+
               <p>${parseFloat(drink.price * drink.qty).toFixed(2)}</p>
             </div>
             <div>
@@ -131,7 +137,9 @@ export const Cart = () => {
                 <input type="number" className="btn other disabled" />
               )}
             </div>
-            <button className="btn checkout">Checkout</button>
+            <button className="btn checkout" onClick={() => refresh()}>
+              Checkout
+            </button>
           </div>
         </div>
       ) : null}

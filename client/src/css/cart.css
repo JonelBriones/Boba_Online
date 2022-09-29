@@ -51,6 +51,9 @@
 }
 
 /* BUTTONs */
+.btn.more {
+  width: 100%;
+}
 .btn.disabled {
   cursor: not-allowed;
 }
