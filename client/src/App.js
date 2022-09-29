@@ -17,8 +17,8 @@ function App() {
           <Navbar />
           <div className="content" id="content">
             <Routes>
-              <Route element={<Home />} path="/" default />
-              <Route element={<Shop />} path="/shop" />
+              {/* <Route element={<Home />} path="/" default /> */}
+              <Route element={<Shop />} path="/shop" default />
               <Route element={<Cart />} path="/cart" />
             </Routes>
           </div>

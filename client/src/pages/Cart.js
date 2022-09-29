@@ -5,6 +5,8 @@ import { GlobalContext } from '../context/GlobalState'
 export const Cart = () => {
   const {
     cart,
+    setCart,
+    setQty,
     addToCart,
     removeFromCart,
     cartQty,
@@ -20,7 +22,8 @@ export const Cart = () => {
   const navigate = useNavigate()
   const refresh = () => {
     navigate('/shop')
-    window.location.reload()
+    setCart([])
+    setQty(0)
   }
   return (
     <div id="cart" className="cart__container">
